@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Diagnóstico: Perfil del Comprador Estratégico y Negociador</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+        }
+        h2 {
+            color: #34495e;
+            border-bottom: 2px solid #ecf0f1;
+            padding-bottom: 10px;
+            margin-top: 30px;
+        }
+        p.description {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+        }
+        .question-block {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #fdfdfd;
+            border-left: 4px solid #3498db;
+            border-radius: 4px;
+        }
+        .question-text {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .options {
+            display: flex;
+            justify-content: space-between;
+            max-width: 500px;
+        }
+        .option-label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+        .option-label input {
+            margin-bottom: 5px;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1.2em;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background-color: #27ae60;
+        }
+        #result-section {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+        .score-display {
+            font-size: 3em;
+            font-weight: bold;
+            color: #2980b9;
+        }
+        .profile-title {
+            font-size: 2em;
+            color: #2c3e50;
+            margin: 10px 0;
+        }
+        .profile-desc {
+            text-align: left;
+            background: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Test Diagnóstico del Perfil del Comprador</h1>
+    <p class="description">Identifica tus fortalezas y brechas en habilidades críticas de abastecimiento estratégico.</p>
+    
+    <form id="quiz-form">
+        <div id="questions-container"></div>
+        <button type="button" onclick="calculateResult()">Ver mis resultados</button>
+    </form>
+
+    <div id="result-section">
+        <h2>Tus Resultados</h2>
+        <div class="score-display" id="final-score">0</div>
+        <div class="profile-title" id="profile-name">Perfil</div>
+        <div class="profile-desc" id="profile-description"></div>
+        <button type="button" style="background-color: #3498db;" onclick="location.reload()">Rehacer Test</button>
+    </div>
+</div>
+
+<script>
+    const sections = [
+        {
+            title: "1. Preparación Estratégica de la Negociación",
+            questions: [
+                "Antes de negociar, analizo el mercado del proveedor.",
+                "Identifico claramente mis objetivos y límites antes de iniciar una negociación.",
+                "Siempre preparo alternativas en caso de no llegar a un acuerdo (BATNA).",
+                "Analizo los intereses del proveedor, no solo sus posiciones.",
+                "Evalúo el impacto financiero total de la negociación (TCO)."
+            ]
+        },
+        {
+            title: "2. Comunicación e Influencia",
+            questions: [
+                "Escucho activamente antes de responder en una negociación.",
+                "Hago preguntas para entender los intereses del proveedor.",
+                "Sé comunicar argumentos basados en datos.",
+                "Mantengo la calma en negociaciones difíciles.",
+                "Logro persuadir sin generar conflicto."
+            ]
+        },
+        {
+            title: "3. Inteligencia Analítica",
+            questions: [
+                "Analizo datos de costos antes de negociar.",
+                "Identifico variables que pueden generar valor en la negociación.",
+                "Utilizo herramientas como análisis de mercado o benchmarking.",
+                "Pienso en escenarios alternativos durante la negociación.",
+                "Evalúo el impacto de las decisiones en la cadena de suministro."
+            ]
+        },
+        {
+            title: "4. Relación con Proveedores",
+            questions: [
+                "Busco relaciones de largo plazo con proveedores clave.",
+                "Considero la negociación como un proceso de creación de valor.",
+                "Sé cuándo competir y cuándo colaborar con el proveedor.",
+                "Manejo conflictos sin deteriorar la relación comercial.",
+                "Promuevo relaciones ganar–ganar."
+            ]
+        },
+        {
+            title: "5. Inteligencia Emocional en la Negociación",
+            questions: [
+                "Identifico emociones propias y del proveedor durante la negociación.",
+                "Evito reaccionar impulsivamente ante presiones.",
+                "Manejo situaciones de tensión con diplomacia.",
+                "Soy capaz de adaptarme al estilo de negociación del otro.",
+                "Mantengo objetividad incluso cuando el proveedor es agresivo."
+            ]
+        }
+    ];
+
+    const profiles = [
+        {
+            min: 100, max: 125,
+            name: "Comprador Estratégico Avanzado",
+            desc: "<strong>Características:</strong> Analiza mercados, prepara negociaciones, piensa en TCO y construye relaciones de valor. Es el perfil ideal en Strategic Sourcing."
+        },
+        {
+            min: 75, max: 99,
+            name: "Comprador Analítico",
+            desc: "<strong>Fortalezas:</strong> Buen manejo de datos y análisis financiero.<br><br><strong>Debilidad:</strong> Puede fallar en habilidades relacionales o de influencia."
+        },
+        {
+            min: 50, max: 74,
+            name: "Comprador Operativo",
+            desc: "<strong>Características:</strong> Ejecuta procesos y sigue procedimientos.<br><br><strong>Debilidad:</strong> Baja visión estratégica."
+        },
+        {
+            min: 25, max: 49,
+            name: "Comprador Reactivo",
+            desc: "<strong>Características:</strong> Actúa bajo presión, tiene baja preparación y realiza negociaciones improvisadas. Es el perfil que más necesita desarrollo."
+        }
+    ];
+
+    const container = document.getElementById('questions-container');
+    let questionCounter = 1;
+
+    sections.forEach((section, sIndex) => {
+        let sectionHtml = `<h2>${section.title}</h2>`;
+        
+        section.questions.forEach((q, qIndex) => {
+            sectionHtml += `
+                <div class="question-block">
+                    <div class="question-text">${questionCounter}. ${q}</div>
+                    <div class="options">
+                        <label class="option-label"><input type="radio" name="q${questionCounter}" value="1"> 1 (Nunca)</label>
+                        <label class="option-label"><input type="radio" name="q${questionCounter}" value="2"> 2 (Rara vez)</label>
+                        <label class="option-label"><input type="radio" name="q${questionCounter}" value="3"> 3 (A veces)</label>
+                        <label class="option-label"><input type="radio" name="q${questionCounter}" value="4"> 4 (Frecuentemente)</label>
+                        <label class="option-label"><input type="radio" name="q${questionCounter}" value="5"> 5 (Siempre)</label>
+                    </div>
+                </div>
+            `;
+            questionCounter++;
+        });
+        container.innerHTML += sectionHtml;
+    });
+
+    function calculateResult() {
+        let totalScore = 0;
+        let allAnswered = true;
+
+        for (let i = 1; i <= 25; i++) {
+            const selected = document.querySelector(`input[name="q${i}"]:checked`);
+            if (selected) {
+                totalScore += parseInt(selected.value);
+            } else {
+                allAnswered = false;
+            }
+        }
+
+        if (!allAnswered) {
+            alert("Por favor, responde a todas las preguntas antes de ver los resultados.");
+            return;
+        }
+
+        let matchedProfile = profiles.find(p => totalScore >= p.min && totalScore <= p.max);
+        
+        // Prevención en caso de un error matemático en los rangos
+        if (!matchedProfile) {
+            matchedProfile = profiles[profiles.length - 1]; 
+        }
+
+        document.getElementById('quiz-form').style.display = 'none';
+        document.getElementById('result-section').style.display = 'block';
+        
+        document.getElementById('final-score').innerText = totalScore + " / 125";
+        document.getElementById('profile-name').innerText = matchedProfile.name;
+        document.getElementById('profile-description').innerHTML = matchedProfile.desc;
+        window.scrollTo(0, 0);
+    }
+</script>
+
+</body>
+</html>
