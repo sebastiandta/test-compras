@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <!-- Esta línea es clave para que los celulares escalen bien la pantalla -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Test Diagnóstico: Perfil del Comprador Estratégico y Negociador</title>
     <style>
@@ -11,7 +12,7 @@
             color: #333;
             line-height: 1.6;
             margin: 0;
-            padding: 20px;
+            padding: 20px 10px; /* Reducido para celular */
         }
         .container {
             max-width: 800px;
@@ -30,6 +31,7 @@
             border-bottom: 2px solid #ecf0f1;
             padding-bottom: 10px;
             margin-top: 30px;
+            font-size: 1.3em;
         }
         p.description {
             text-align: center;
@@ -45,12 +47,12 @@
         }
         .question-text {
             font-weight: bold;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
         .options {
             display: flex;
             justify-content: space-between;
-            max-width: 500px;
+            max-width: 100%;
         }
         .option-label {
             display: flex;
@@ -58,10 +60,11 @@
             align-items: center;
             cursor: pointer;
             font-size: 0.9em;
-            text-align: center;
+            padding: 5px;
         }
         .option-label input {
-            margin-bottom: 5px;
+            margin-bottom: 8px;
+            cursor: pointer;
         }
         button {
             display: block;
@@ -82,7 +85,7 @@
         #result-section {
             display: none;
             text-align: center;
-            padding: 20px;
+            padding: 20px 0;
         }
         .score-display {
             font-size: 3em;
@@ -101,130 +104,38 @@
             border-radius: 8px;
             margin-top: 20px;
         }
-        
-        /* Estilos del Análisis por áreas */
-        .analysis-box {
-            background: #fff;
-            border: 2px solid #bdc3c7;
-            border-radius: 8px;
-            padding: 20px;
-            margin-top: 25px;
-            text-align: left;
-        }
-        .analysis-box h3 {
-            margin-top: 0;
-            color: #2c3e50;
-            text-align: center;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 10px;
-        }
-        .highlight-item {
-            margin: 15px 0;
-            padding: 15px;
-            border-radius: 6px;
-        }
-        .highest {
-            background-color: #e8f8f5;
-            border-left: 5px solid #1abc9c;
-        }
-        .lowest {
-            background-color: #fdedec;
-            border-left: 5px solid #e74c3c;
-        }
-        .highlight-title {
-            font-size: 1.1em;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        .bar-container {
-            width: 100%;
-            background-color: #ddd;
-            border-radius: 4px;
-            margin-top: 10px;
-        }
-        .bar {
-            height: 15px;
-            border-radius: 4px;
-            text-align: right;
-            color: white;
-            font-size: 0.8em;
-            line-height: 15px;
-            padding-right: 5px;
-        }
-        .all-scores-list {
-            list-style: none;
-            padding: 0;
-            margin-top: 20px;
-        }
-        .all-scores-list li {
-            margin-bottom: 10px;
-            font-size: 0.95em;
-        }
 
-        /* Estilos de la Matriz Visual */
-        .matrix-wrapper {
-            margin-top: 35px;
-            text-align: center;
-        }
-        .matrix-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-template-rows: 1fr 1fr;
-            gap: 15px;
-            margin: 20px auto;
-        }
-        .matrix-cell {
-            border: 2px solid #bdc3c7;
-            border-radius: 8px;
-            padding: 20px;
-            background-color: #f9fbfb;
-            transition: all 0.3s ease;
-            opacity: 0.6;
-            text-align: left;
-        }
-        .matrix-cell h4 {
-            margin-top: 0;
-            margin-bottom: 10px;
-            color: #7f8c8d;
-        }
-        .matrix-cell p {
-            font-size: 0.85em;
-            color: #95a5a6;
-            margin: 0;
-        }
-        /* Clase activa para resaltar el perfil del usuario */
-        .matrix-cell.active {
-            opacity: 1;
-            border-color: #3498db;
-            background-color: #ebf5fb;
-            box-shadow: 0 0 15px rgba(52, 152, 219, 0.3);
-            transform: scale(1.03);
-        }
-        .matrix-cell.active h4 {
-            color: #2980b9;
-        }
-        .matrix-cell.active p {
-            color: #34495e;
-            font-weight: bold;
-        }
-
-        /* Estilos de la Tabla de Referencia */
-        .reference-table {
-            margin-top: 30px;
-        }
-        .reference-table table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: left;
-            font-size: 0.9em;
-        }
-        .reference-table th, .reference-table td {
-            padding: 10px;
-            border: 1px solid #bdc3c7;
-        }
-        .reference-table th {
-            background: #ecf0f1;
-            color: #2c3e50;
+        /* ====== MAGIA PARA CELULARES ====== */
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            .container {
+                padding: 15px; /* Menos espacio de los bordes blancos */
+            }
+            h1 {
+                font-size: 1.5em; /* Título un poco más pequeño */
+            }
+            .options {
+                flex-direction: column; /* Apila las opciones hacia abajo */
+                align-items: flex-start;
+                gap: 5px;
+            }
+            .option-label {
+                flex-direction: row; /* Coloca el circulito junto al texto */
+                width: 100%;
+                padding: 12px 5px; /* Más área para tocar con el dedo */
+                font-size: 1em;
+                border-bottom: 1px solid #f0f0f0; /* Línea separadora sutil */
+            }
+            .option-label:last-child {
+                border-bottom: none;
+            }
+            .option-label input {
+                margin-bottom: 0;
+                margin-right: 15px;
+                transform: scale(1.4); /* Hace el circulito de selección más grande */
+            }
         }
     </style>
 </head>
@@ -236,86 +147,14 @@
     
     <form id="quiz-form">
         <div id="questions-container"></div>
-        <button type="button" onclick="calculateResult()">Ver mis resultados detallados</button>
+        <button type="button" onclick="calculateResult()">Ver mis resultados</button>
     </form>
 
     <div id="result-section">
-        <h2>Tus Resultados Finales</h2>
+        <h2>Tus Resultados</h2>
         <div class="score-display" id="final-score">0</div>
         <div class="profile-title" id="profile-name">Perfil</div>
         <div class="profile-desc" id="profile-description"></div>
-
-        <!-- Matriz Visual 2x2 -->
-        <div class="matrix-wrapper">
-            <h3 style="color: #2c3e50;">Matriz de Posicionamiento</h3>
-            <p style="font-size: 0.9em; color: #7f8c8d;">Tu perfil actual se encuentra resaltado dentro de la matriz de habilidades.</p>
-            <div class="matrix-grid">
-                <div id="cell-analitico" class="matrix-cell">
-                    <h4>Comprador Analítico</h4>
-                    <p>Fuerte en análisis financiero y datos. Brechas en habilidades relacionales o influencia.</p>
-                </div>
-                <div id="cell-estrategico" class="matrix-cell">
-                    <h4>Comprador Estratégico</h4>
-                    <p>Alto enfoque en TCO, preparación y construcción de relaciones de valor.</p>
-                </div>
-                <div id="cell-reactivo" class="matrix-cell">
-                    <h4>Comprador Reactivo</h4>
-                    <p>Baja preparación. Actúa bajo presión mediante negociaciones improvisadas.</p>
-                </div>
-                <div id="cell-operativo" class="matrix-cell">
-                    <h4>Comprador Operativo</h4>
-                    <p>Fuerte en ejecución de procesos y procedimientos. Baja visión estratégica.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Análisis por áreas (Barras) -->
-        <div class="analysis-box">
-            <h3>Análisis Profundo por Competencias</h3>
-            
-            <div class="highlight-item highest">
-                <div class="highlight-title">🌟 Tu Mayor Fortaleza: <span id="highest-name"></span></div>
-                <div>Obtuviste <span id="highest-score"></span> de 25 puntos. ¡Excelente dominio en esta área!</div>
-            </div>
-
-            <div class="highlight-item lowest">
-                <div class="highlight-title">📈 Tu Área de Mejora: <span id="lowest-name"></span></div>
-                <div>Obtuviste <span id="lowest-score"></span> de 25 puntos. Es el área crítica en la que debes enfocarte para potenciar tu perfil estratégico.</div>
-            </div>
-
-            <h4 style="margin-top: 25px; text-align: center;">Desglose de todas las áreas:</h4>
-            <ul class="all-scores-list" id="all-scores-container">
-                <!-- Se llenará dinámicamente -->
-            </ul>
-        </div>
-
-        <!-- Tabla de Puntuaciones -->
-        <div class="reference-table">
-            <h3 style="color: #2c3e50; text-align: center;">Matriz de Interpretación de Puntajes</h3>
-            <table>
-                <tr>
-                    <th>Puntaje</th>
-                    <th>Interpretación</th>
-                </tr>
-                <tr>
-                    <td>100 – 125</td>
-                    <td>Comprador Estratégico Avanzado</td>
-                </tr>
-                <tr>
-                    <td>75 – 99</td>
-                    <td>Comprador Analítico</td>
-                </tr>
-                <tr>
-                    <td>50 – 74</td>
-                    <td>Comprador Operativo</td>
-                </tr>
-                <tr>
-                    <td>25 – 49</td>
-                    <td>Comprador Reactivo</td>
-                </tr>
-            </table>
-        </div>
-
         <button type="button" style="background-color: #3498db;" onclick="location.reload()">Rehacer Test</button>
     </div>
 </div>
@@ -376,22 +215,22 @@
 
     const profiles = [
         {
-            min: 100, max: 125, id: "estrategico",
+            min: 100, max: 125,
             name: "Comprador Estratégico Avanzado",
             desc: "<strong>Características:</strong> Analiza mercados, prepara negociaciones, piensa en TCO y construye relaciones de valor. Es el perfil ideal en Strategic Sourcing."
         },
         {
-            min: 75, max: 99, id: "analitico",
+            min: 75, max: 99,
             name: "Comprador Analítico",
             desc: "<strong>Fortalezas:</strong> Buen manejo de datos y análisis financiero.<br><br><strong>Debilidad:</strong> Puede fallar en habilidades relacionales o de influencia."
         },
         {
-            min: 50, max: 74, id: "operativo",
+            min: 50, max: 74,
             name: "Comprador Operativo",
             desc: "<strong>Características:</strong> Ejecuta procesos y sigue procedimientos.<br><br><strong>Debilidad:</strong> Baja visión estratégica."
         },
         {
-            min: 25, max: 49, id: "reactivo",
+            min: 25, max: 49,
             name: "Comprador Reactivo",
             desc: "<strong>Características:</strong> Actúa bajo presión, tiene baja preparación y realiza negociaciones improvisadas. Es el perfil que más necesita desarrollo."
         }
@@ -400,7 +239,6 @@
     const container = document.getElementById('questions-container');
     let questionCounter = 1;
 
-    // Generar el HTML de las preguntas
     sections.forEach((section, sIndex) => {
         let sectionHtml = `<h2>${section.title}</h2>`;
         
@@ -409,11 +247,11 @@
                 <div class="question-block">
                     <div class="question-text">${questionCounter}. ${q}</div>
                     <div class="options">
-                        <label class="option-label"><input type="radio" name="q${questionCounter}" value="1"> 1 (Nunca)</label>
-                        <label class="option-label"><input type="radio" name="q${questionCounter}" value="2"> 2 (Rara vez)</label>
-                        <label class="option-label"><input type="radio" name="q${questionCounter}" value="3"> 3 (A veces)</label>
-                        <label class="option-label"><input type="radio" name="q${questionCounter}" value="4"> 4 (Frecuentemente)</label>
-                        <label class="option-label"><input type="radio" name="q${questionCounter}" value="5"> 5 (Siempre)</label>
+                        <label class="option-label"><input type="radio" name="q${questionCounter}" value="1"> <span>1 (Nunca)</span></label>
+                        <label class="option-label"><input type="radio" name="q${questionCounter}" value="2"> <span>2 (Rara vez)</span></label>
+                        <label class="option-label"><input type="radio" name="q${questionCounter}" value="3"> <span>3 (A veces)</span></label>
+                        <label class="option-label"><input type="radio" name="q${questionCounter}" value="4"> <span>4 (Frecuentemente)</span></label>
+                        <label class="option-label"><input type="radio" name="q${questionCounter}" value="5"> <span>5 (Siempre)</span></label>
                     </div>
                 </div>
             `;
@@ -425,25 +263,14 @@
     function calculateResult() {
         let totalScore = 0;
         let allAnswered = true;
-        let sectionScores = [];
-        let currentQ = 1;
 
-        // Calcular puntajes por sección y total
-        for (let i = 0; i < sections.length; i++) {
-            let sScore = 0;
-            for (let j = 0; j < 5; j++) {
-                const selected = document.querySelector(`input[name="q${currentQ}"]:checked`);
-                if (selected) {
-                    let value = parseInt(selected.value);
-                    sScore += value;
-                    totalScore += value;
-                } else {
-                    allAnswered = false;
-                }
-                currentQ++;
+        for (let i = 1; i <= 25; i++) {
+            const selected = document.querySelector(`input[name="q${i}"]:checked`);
+            if (selected) {
+                totalScore += parseInt(selected.value);
+            } else {
+                allAnswered = false;
             }
-            let cleanTitle = sections[i].title.substring(3);
-            sectionScores.push({ name: cleanTitle, score: sScore });
         }
 
         if (!allAnswered) {
@@ -451,48 +278,18 @@
             return;
         }
 
-        // Determinar perfil
         let matchedProfile = profiles.find(p => totalScore >= p.min && totalScore <= p.max);
-        if (!matchedProfile) matchedProfile = profiles[profiles.length - 1]; 
+        
+        if (!matchedProfile) {
+            matchedProfile = profiles[profiles.length - 1]; 
+        }
 
-        // Actualizar UI del perfil general
         document.getElementById('quiz-form').style.display = 'none';
         document.getElementById('result-section').style.display = 'block';
+        
         document.getElementById('final-score').innerText = totalScore + " / 125";
         document.getElementById('profile-name').innerText = matchedProfile.name;
         document.getElementById('profile-description').innerHTML = matchedProfile.desc;
-
-        // Limpiar y Activar la celda de la Matriz correcta
-        document.querySelectorAll('.matrix-cell').forEach(cell => cell.classList.remove('active'));
-        document.getElementById('cell-' + matchedProfile.id).classList.add('active');
-
-        // Lógica de Análisis Profundo
-        let sortedSections = [...sectionScores].sort((a, b) => b.score - a.score);
-        let highest = sortedSections[0];
-        let lowest = sortedSections[sortedSections.length - 1];
-
-        document.getElementById('highest-name').innerText = highest.name;
-        document.getElementById('highest-score').innerText = highest.score;
-        document.getElementById('lowest-name').innerText = lowest.name;
-        document.getElementById('lowest-score').innerText = lowest.score;
-
-        // Crear las barras de progreso
-        let breakdownHtml = "";
-        sectionScores.forEach(sec => {
-            let percentage = (sec.score / 25) * 100;
-            let barColor = percentage >= 80 ? '#2ecc71' : (percentage >= 60 ? '#f1c40f' : '#e74c3c');
-            
-            breakdownHtml += `
-                <li>
-                    <strong>${sec.name}</strong> (${sec.score}/25)
-                    <div class="bar-container">
-                        <div class="bar" style="width: ${percentage}%; background-color: ${barColor};"></div>
-                    </div>
-                </li>
-            `;
-        });
-        document.getElementById('all-scores-container').innerHTML = breakdownHtml;
-
         window.scrollTo(0, 0);
     }
 </script>
